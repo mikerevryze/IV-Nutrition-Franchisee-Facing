@@ -27,10 +27,7 @@ import {
 import {
   Area,
   AreaChart,
-  Bar,
-  BarChart,
   CartesianGrid,
-  Cell,
   Legend,
   Line,
   LineChart,
@@ -148,7 +145,6 @@ const NAV = [
   ["offer", "The Offer"],
   ["calculator", "Calculator"],
   ["founding", "Founding Campaign"],
-  ["corporate", "Corporate Upside"],
   ["ask", "Next Steps"],
 ];
 
@@ -230,8 +226,8 @@ function Hero() {
           </p>
           <p className="text-lg md:text-xl text-white/85 max-w-2xl mx-auto leading-relaxed">
             We fill your founding membership roster before you open your doors —
-            and we put our fee on the line. Predictable openings, derisked
-            economics, and pure upside for corporate.
+            and we put our fee on the line. You open warm, your cash is
+            protected, and you only pay for the members we actually deliver.
           </p>
           <div className="mt-10 flex flex-wrap gap-4 justify-center">
             <a href="#calculator" className="iv-btn px-8 py-3.5 text-base" data-testid="button-explore-guarantee">
@@ -255,7 +251,7 @@ function Hero() {
           {[
             ["100", "Members Guaranteed"],
             ["16 wks", "Pre-Open Campaign"],
-            ["$0", "Cost to Corporate"],
+            ["$25k", "Flat Fee Per Opening"],
             ["$1 : $1", "Refund if We Miss"],
           ].map(([big, label]) => (
             <div
@@ -300,8 +296,8 @@ function Problem() {
           <SectionHeading
             dark
             eyebrow="The Cold-Start Problem"
-            title="A great wellness brand still has to fill the room."
-            sub="Opening a new location is the riskiest moment in the franchise journey. Without a pre-built membership base, owners burn cash chasing a slow ramp — and corporate waits months for royalties to follow."
+            title="The Risk of Opening Without a Founding Roster"
+            sub="Opening a new location is the riskiest moment in your franchise journey. Without a pre-built membership base, you burn cash chasing a slow ramp — and every empty week eats into the capital you put on the line."
           />
         </motion.div>
 
@@ -318,11 +314,7 @@ function Problem() {
               ],
               [
                 "Slow, unpredictable ramp",
-                "Months of guesswork before a location reaches a healthy, self-sustaining member base.",
-              ],
-              [
-                "Delayed royalties for corporate",
-                "Every slow opening pushes royalty revenue further out and strains the brand's growth model.",
+                "Months of guesswork before your location reaches a healthy, self-sustaining member base.",
               ],
             ].map(([t, d]) => (
               <div
@@ -431,8 +423,8 @@ const solutionCards = [
   ],
   [
     Sparkles,
-    "Pure upside for corporate",
-    "Corporate pays nothing. Every membership and every royalty dollar is incremental growth for the brand.",
+    "You focus on the community",
+    "We run the ads, the founding campaign, and member onboarding — so you can pour your energy into the local community events that build your brand, the highest-impact thing you can do as you open.",
   ],
 ];
 
@@ -444,7 +436,7 @@ function Solution() {
           <SectionHeading
             eyebrow="The Revryze Solution"
             title="We bring your wellness promise to life — at scale."
-            sub="Revryze is the derisking partner that fills your founding membership roster before you open, so every new location starts strong."
+            sub="Revryze is the derisking partner that fills your founding membership roster before you open, so your new location starts strong."
           />
         </motion.div>
 
@@ -491,39 +483,9 @@ function Solution() {
 
 /* ──────────────────────────── OFFER ─────────────────────────────────────── */
 
-type Tier = "standard" | "volume" | "pilot";
+const FEE = 25000;
 
-const TIERS: Record<
-  Tier,
-  { label: string; price: number; tag: string; blurb: string }
-> = {
-  standard: {
-    label: "Standard",
-    price: 30000,
-    tag: "Single opening",
-    blurb: "Per opening for a 100-member guarantee.",
-  },
-  volume: {
-    label: "Volume",
-    price: 25000,
-    tag: "10+ openings / 12 mo",
-    blurb: "Locked-in rate when you commit to 10 or more openings.",
-  },
-  pilot: {
-    label: "Pilot",
-    price: 25000,
-    tag: "Launch pilot",
-    blurb: "Pilot openings get the volume rate from day one.",
-  },
-};
-
-function Offer({
-  tier,
-  setTier,
-}: {
-  tier: Tier;
-  setTier: (t: Tier) => void;
-}) {
+function Offer() {
   return (
     <section
       id="offer"
@@ -536,30 +498,8 @@ function Offer({
           <SectionHeading
             eyebrow="The Offer"
             title="100 Members Guaranteed — or your money back."
-            sub="Simple, transparent pricing with a guarantee that puts our fee on the line. Choose the structure that fits your growth plan."
+            sub="Simple, transparent pricing with a guarantee that puts our fee on the line. One flat fee per opening — you only pay for the members we deliver."
           />
-        </motion.div>
-
-        <motion.div {...fadeUp} className="flex justify-center mb-10">
-          <div className="inline-flex rounded-xl bg-white p-1.5 shadow-sm border border-black/5">
-            {(Object.keys(TIERS) as Tier[]).map((t) => {
-              const active = t === tier;
-              return (
-                <button
-                  key={t}
-                  onClick={() => setTier(t)}
-                  data-testid={`toggle-tier-${t}`}
-                  className="px-6 py-2.5 rounded-lg text-sm font-bold font-cta transition-all"
-                  style={{
-                    background: active ? GREEN : "transparent",
-                    color: active ? "#fff" : "#58595B",
-                  }}
-                >
-                  {TIERS[t].label}
-                </button>
-              );
-            })}
-          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-3 gap-6 items-stretch">
@@ -572,20 +512,20 @@ function Offer({
               className="self-start text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-5"
               style={{ background: "#e8f5ee", color: GREEN }}
             >
-              {TIERS[tier].tag}
+              Per opening
             </span>
             <div
               className="font-mono font-bold"
               style={{ color: CHARCOAL, fontSize: 52, lineHeight: 1 }}
               data-testid="text-tier-price"
             >
-              {money(TIERS[tier].price)}
+              {money(FEE)}
             </div>
             <p className="mt-2 text-sm" style={{ color: "#666" }}>
               per opening &middot; paid by franchisee
             </p>
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "#58595B" }}>
-              {TIERS[tier].blurb}
+              One flat fee for a 100-member guarantee.
             </p>
             <div className="mt-6 pt-6 border-t border-black/5 space-y-3">
               {[
@@ -612,9 +552,8 @@ function Offer({
                 To invoke the guarantee
               </h4>
               <p className="text-sm mb-5" style={{ color: "#58595B" }}>
-                The guarantee is a true partnership. To activate it, the
-                franchisee simply commits to the fuel that makes a founding
-                campaign work:
+                The guarantee is a true partnership. To activate it, you simply
+                commit to the fuel that makes a founding campaign work:
               </p>
               <div className="space-y-4">
                 <div className="rounded-xl p-4" style={{ background: "#F7F8F9" }}>
@@ -758,12 +697,12 @@ function MetricRow({
   );
 }
 
-function Calculator({ tier, setTier }: { tier: Tier; setTier: (t: Tier) => void }) {
+function Calculator() {
   const [sold, setSold] = useState(100);
   const [avgValue, setAvgValue] = useState(199);
   const [lifetime, setLifetime] = useState(10);
 
-  const fee = TIERS[tier].price;
+  const fee = FEE;
 
   const calc = useMemo(() => {
     const refundPct = Math.max(0, (GUARANTEE - sold) / GUARANTEE);
@@ -802,29 +741,6 @@ function Calculator({ tier, setTier }: { tier: Tier; setTier: (t: Tier) => void 
             title="See your full return — in real time."
             sub="Adjust the sliders to any scenario. All ten financial outputs update live so you can see exactly what the numbers look like for your opening."
           />
-        </motion.div>
-
-        {/* Tier toggle */}
-        <motion.div {...fadeUp} className="flex justify-center mb-10">
-          <div className="inline-flex rounded-xl p-1.5 border border-black/10" style={{ background: "#F4F4F4" }}>
-            {(Object.keys(TIERS) as Tier[]).map((t) => {
-              const active = t === tier;
-              return (
-                <button
-                  key={t}
-                  onClick={() => setTier(t)}
-                  data-testid={`calc-tier-${t}`}
-                  className="px-5 py-2 rounded-lg text-sm font-bold font-cta transition-all"
-                  style={{
-                    background: active ? GREEN : "transparent",
-                    color: active ? "#fff" : "#58595B",
-                  }}
-                >
-                  {TIERS[t].label} · {money(TIERS[t].price)}
-                </button>
-              );
-            })}
-          </div>
         </motion.div>
 
         <div className="grid lg:grid-cols-12 gap-8">
@@ -1404,126 +1320,6 @@ function Founding() {
   );
 }
 
-/* ─────────────────────────── CORPORATE UPSIDE ───────────────────────────── */
-
-const AVG_MONTHLY = 150;
-const ROYALTY_RATE = 0.07;
-
-function Corporate() {
-  const [openings, setOpenings] = useState<1 | 10>(10);
-
-  const data = useMemo(() => {
-    const monthly = GUARANTEE * AVG_MONTHLY * ROYALTY_RATE;
-    return Array.from({ length: 12 }, (_, i) => {
-      const m = i + 1;
-      return {
-        month: `M${m}`,
-        one: Math.round(monthly * m),
-        ten: Math.round(monthly * m * 10),
-      };
-    });
-  }, []);
-
-  const perLocAnnual = GUARANTEE * AVG_MONTHLY * 12 * ROYALTY_RATE;
-  const total = perLocAnnual * openings;
-
-  return (
-    <section id="corporate" className="py-24 px-6 bg-white" data-testid="section-corporate">
-      <div className="max-w-7xl mx-auto">
-        <motion.div {...fadeUp}>
-          <SectionHeading
-            eyebrow="Corporate Upside"
-            title="$0 cost to corporate. Pure royalty upside."
-            sub="Franchisees pay Revryze directly. Every membership we generate and every royalty dollar that follows is incremental growth for the brand."
-          />
-        </motion.div>
-
-        <div className="grid lg:grid-cols-3 gap-6 mb-12">
-          {[
-            ["$0", "Cost to corporate", "Franchisees pay all Revryze fees directly."],
-            ["100", "Members per opening", "A full founding roster before doors open."],
-            ["7%", "Royalty on revenue", "Captured from day one, not month six."],
-          ].map(([big, label, sub]) => (
-            <motion.div key={label} {...fadeUp} className="rounded-2xl p-7 text-center shadow-sm border border-black/5" style={{ background: "#F7F8F9" }}>
-              <div className="font-mono font-bold mb-1" style={{ color: GREEN, fontSize: 44 }}>
-                {big}
-              </div>
-              <div className="font-bold mb-1" style={{ color: CHARCOAL }}>
-                {label}
-              </div>
-              <p className="text-sm" style={{ color: "#666" }}>
-                {sub}
-              </p>
-            </motion.div>
-          ))}
-        </div>
-
-        <motion.div {...fadeUp} className="rounded-2xl p-8 shadow-lg border border-black/5" style={{ background: "#F4F4F4" }}>
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-            <div>
-              <h4 className="font-condensed text-2xl" style={{ color: GREEN }}>
-                Cumulative royalty revenue (Year 1)
-              </h4>
-              <p className="text-sm" style={{ color: "#666" }}>
-                Illustrative at {GUARANTEE} members &times; {money(AVG_MONTHLY)}/mo blended &times; {ROYALTY_RATE * 100}% royalty.
-              </p>
-            </div>
-            <div className="inline-flex rounded-xl bg-white p-1.5 border border-black/10">
-              {([1, 10] as const).map((o) => {
-                const active = o === openings;
-                return (
-                  <button
-                    key={o}
-                    onClick={() => setOpenings(o)}
-                    data-testid={`toggle-openings-${o}`}
-                    className="px-5 py-2 rounded-lg text-sm font-bold font-cta transition-all"
-                    style={{ background: active ? GREEN : "transparent", color: active ? "#fff" : "#58595B" }}
-                  >
-                    {o === 1 ? "1 opening" : "10+ openings"}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={data} margin={{ left: -8, right: 8 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#e3e3e3" />
-              <XAxis dataKey="month" stroke="#999" fontSize={12} />
-              <YAxis stroke="#999" fontSize={12} tickFormatter={(v) => `$${v / 1000}k`} />
-              <RTooltip formatter={(v: number) => money(v)} contentStyle={{ borderRadius: 8, border: "1px solid #eee" }} />
-              <Bar dataKey={openings === 1 ? "one" : "ten"} name="Cumulative royalty" radius={[6, 6, 0, 0]}>
-                {data.map((_, i) => (
-                  <Cell key={i} fill={i === data.length - 1 ? GREEN : LIME} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-
-          <div className="mt-6 grid sm:grid-cols-2 gap-4">
-            <div className="rounded-xl bg-white p-5 text-center border border-black/5">
-              <div className="text-xs font-bold uppercase tracking-wider mb-1" style={{ color: "#999" }}>
-                Royalty per opening / yr
-              </div>
-              <div className="font-mono font-bold" style={{ color: CHARCOAL, fontSize: 30 }}>
-                {money(perLocAnnual)}
-              </div>
-            </div>
-            <div className="rounded-xl p-5 text-center" style={{ background: GREEN }}>
-              <div className="text-xs font-bold uppercase tracking-wider mb-1 text-white/80">
-                Total at {openings} opening{openings > 1 ? "s" : ""} / yr
-              </div>
-              <div className="font-mono font-bold text-white" style={{ fontSize: 30 }}>
-                {money(total)}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
 /* ──────────────────────────── THE ASK ───────────────────────────────────── */
 
 function Ask() {
@@ -1550,8 +1346,8 @@ function Ask() {
               "Nourish Your Body, Nourish Your Soul."
             </p>
             <p className="text-lg" style={{ color: "#58595B" }}>
-              IV Nutrition has built a wellness brand people love. Revryze makes
-              sure every new location opens to a room already full of believers.
+              You've already built your belief in the brand. Revryze makes sure
+              your next location opens to a room already full of believers.
             </p>
           </motion.div>
         </div>
@@ -1564,14 +1360,14 @@ function Ask() {
             Let's fill your next opening — guaranteed.
           </h2>
           <p className="text-white/90 text-lg max-w-2xl mx-auto mb-8">
-            100 founding members at open, or a dollar-for-dollar refund. Zero cost
-            to corporate, predictable economics for franchisees, and pure royalty
-            upside for the brand.
+            100 founding members at open, or a dollar-for-dollar refund. You open
+            warm, your cash is protected, and you only pay for the members we
+            bring through your doors.
           </p>
           <div className="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mb-10 text-left">
             {[
-              ["1. Approve the pilot", "Green-light a pilot opening at the $25k rate."],
-              ["2. Launch the 16-week arc", "We build the founding roster before you open."],
+              ["1. Lock your opening", "Reserve your 16-week campaign at the $25k rate."],
+              ["2. Launch the 16-week arc", "We build your founding roster before you open."],
               ["3. Open at 100", "Day-one momentum, locked-in recurring revenue."],
             ].map(([t, d]) => (
               <div key={t} className="rounded-xl bg-white/10 border border-white/20 p-5">
@@ -1581,7 +1377,7 @@ function Ask() {
             ))}
           </div>
           <a
-            href="mailto:partnerships@revryze.com?subject=IV%20Nutrition%20x%20Revryze%20Pilot"
+            href="mailto:partnerships@revryze.com?subject=IV%20Nutrition%20x%20Revryze%20%E2%80%94%20New%20Location"
             className="inline-flex items-center gap-2 bg-white px-9 py-4 rounded-[5px] font-cta font-bold text-base"
             style={{ color: GREEN }}
             data-testid="button-start-conversation"
@@ -1600,8 +1396,8 @@ function Ask() {
           Growth Point Solutions LLC dba Revryze
         </p>
         <p className="text-white/35 text-xs">
-          Proprietary &amp; Confidential. Prepared for IV Nutrition corporate
-          leadership. Figures are illustrative and for discussion purposes.
+          Proprietary &amp; Confidential. Prepared for IV Nutrition franchisees.
+          Figures are illustrative and for discussion purposes.
         </p>
       </footer>
     </section>
@@ -1611,18 +1407,15 @@ function Ask() {
 /* ──────────────────────────── PAGE ──────────────────────────────────────── */
 
 export default function ProposalPage() {
-  const [tier, setTier] = useState<Tier>("pilot");
-
   return (
     <div className="min-h-screen bg-white font-sans" style={{ color: CHARCOAL }}>
       <Nav />
       <Hero />
       <Problem />
       <Solution />
-      <Offer tier={tier} setTier={setTier} />
-      <Calculator tier={tier} setTier={setTier} />
+      <Offer />
+      <Calculator />
       <Founding />
-      <Corporate />
       <Ask />
     </div>
   );
